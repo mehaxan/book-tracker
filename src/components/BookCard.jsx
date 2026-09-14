@@ -105,7 +105,7 @@ export function BookCard({ book, onEdit, onSelect, onQuickProgress }) {
             <span className="book-genre-pill">{book.genre}</span>
             {book.price > 0 && (
               <span className="book-genre-pill" style={{ color: 'var(--emerald)' }}>
-                ${Number(book.price).toFixed(2)}
+                ৳{Number(book.price).toLocaleString()}
               </span>
             )}
             {book.priority && book.status === SHELVES.WISHLIST && (

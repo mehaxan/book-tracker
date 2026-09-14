@@ -215,12 +215,12 @@ export function BookModal({ isOpen, onClose, initialData = null }) {
               </div>
 
               <div className="form-group">
-                <label>Price ($ USD)</label>
+                <label>Price (৳ Taka)</label>
                 <input
                   type="number"
-                  step="0.01"
+                  step="1"
                   className="form-control"
-                  placeholder="e.g. 19.99"
+                  placeholder="e.g. 650"
                   value={formData.price}
                   onChange={(e) => handleChange('price', e.target.value)}
                   min="0"

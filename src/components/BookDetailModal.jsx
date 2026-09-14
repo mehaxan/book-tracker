@@ -115,8 +115,8 @@ export function BookDetailModal({ book, isOpen, onClose, onEdit, onOpenProgress 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '4px' }}>
                 {book.price > 0 && (
                   <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <DollarSign size={13} color="var(--emerald)" />
-                    ${Number(book.price).toFixed(2)}
+                    <span style={{ color: 'var(--emerald)', fontWeight: 700 }}>৳</span>
+                    ৳{Number(book.price).toLocaleString()}
                   </span>
                 )}
                 {book.startDate && (

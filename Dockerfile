@@ -1,18 +1,10 @@
-# Build Stage
-FROM node:20-alpine AS build
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm ci
-
-COPY . .
-RUN npm run build
-
-# Production Stage with Nginx
+# Lightweight Production Nginx Container
 FROM nginx:alpine
 
-COPY --from=build /app/dist /usr/share/nginx/html
+# Copy pre-compiled Vite production bundle
+COPY dist /usr/share/nginx/html
+
+# Copy custom reverse-proxy config for book.mehaxan.com
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80

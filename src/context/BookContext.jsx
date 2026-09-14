@@ -24,7 +24,7 @@ export function BookProvider({ children }) {
         console.error('Failed to parse saved books', e);
       }
     }
-    return INITIAL_BOOKS;
+    return [];
   });
 
   // Reading sessions state
@@ -37,7 +37,7 @@ export function BookProvider({ children }) {
         console.error('Failed to parse saved sessions', e);
       }
     }
-    return INITIAL_SESSIONS;
+    return [];
   });
 
   // Annual reading goal
@@ -65,17 +65,14 @@ export function BookProvider({ children }) {
 
           // Fetch books from MongoDB
           const remoteBooks = await api.getBooks();
-          if (remoteBooks && remoteBooks.length > 0) {
+          if (remoteBooks) {
             setBooks(remoteBooks);
             localStorage.setItem('lumina_books', JSON.stringify(remoteBooks));
-          } else {
-            // DB is empty, sync initial books to MongoDB Atlas
-            api.seedBooks(INITIAL_BOOKS, INITIAL_SESSIONS).catch(() => {});
           }
 
           // Fetch sessions from MongoDB
           const remoteSessions = await api.getSessions();
-          if (remoteSessions && remoteSessions.length > 0) {
+          if (remoteSessions) {
             setSessions(remoteSessions);
             localStorage.setItem('lumina_sessions', JSON.stringify(remoteSessions));
           }
@@ -88,7 +85,6 @@ export function BookProvider({ children }) {
           }
         }
       } catch (err) {
-        // Backend not currently running - fallback cleanly to localStorage
         console.log('[Lumina Read] Operating in local storage mode.');
         setDbConnected(false);
       }

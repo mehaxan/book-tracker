@@ -1,18 +1,7 @@
 import React from 'react';
-import { 
-  Chart as ChartJS, 
-  CategoryScale, 
-  LinearScale, 
-  BarElement, 
-  PointElement, 
-  LineElement, 
-  ArcElement, 
-  Title, 
-  Tooltip, 
-  Legend, 
-  Filler 
-} from 'chart.js';
+import { Chart as ChartJS, registerables } from 'chart.js';
 import { Bar, Doughnut, Line } from 'react-chartjs-2';
+
 import { 
   Flame, 
   BookOpen, 
@@ -32,18 +21,7 @@ import {
 import { useBooks } from '../context/BookContext';
 import { SHELVES } from '../data/initialBooks';
 
-ChartJS.register(
-  CategoryScale, 
-  LinearScale, 
-  BarElement, 
-  PointElement, 
-  LineElement, 
-  ArcElement, 
-  Title, 
-  Tooltip, 
-  Legend, 
-  Filler
-);
+ChartJS.register(...registerables);
 
 export function DashboardView({ onOpenAddModal, onQuickProgress, onSelectBook }) {
   const { books, sessions, analytics, setCurrentView, theme } = useBooks();
@@ -308,7 +286,7 @@ export function DashboardView({ onOpenAddModal, onQuickProgress, onSelectBook })
           </div>
           <div className="kpi-value">{analytics.boughtCount} <span style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>books</span></div>
           <div className="kpi-subtext">
-            <span className="highlight">${analytics.unreadInvestment}</span>
+            <span className="highlight">৳{analytics.unreadInvestment}</span>
             <span>waiting to be read ({analytics.tsundokuRatio}% of owned)</span>
           </div>
         </div>
@@ -317,11 +295,11 @@ export function DashboardView({ onOpenAddModal, onQuickProgress, onSelectBook })
         <div className="kpi-card">
           <div className="kpi-header">
             <span className="kpi-title">Total Investment</span>
-            <div className="kpi-icon-wrap" style={{ background: 'rgba(168, 85, 247, 0.15)', color: 'var(--purple)' }}>
-              <DollarSign size={20} />
+            <div className="kpi-icon-wrap" style={{ background: 'rgba(168, 85, 247, 0.15)', color: 'var(--purple)', fontSize: '1.2rem', fontWeight: 800 }}>
+              ৳
             </div>
           </div>
-          <div className="kpi-value">${analytics.totalInvestment}</div>
+          <div className="kpi-value">৳{analytics.totalInvestment}</div>
           <div className="kpi-subtext">
             <span>Across all owned &amp; read books</span>
           </div>
