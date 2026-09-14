@@ -1,0 +1,47 @@
+services:
+  mongodb:
+    image: mongo:7-jammy
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=lumina_admin
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:-LuminaSecurePass2026!}
+      - MONGO_INITDB_DATABASE=lumina_read
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - lumina-network
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - MONGODB_URI=${MONGODB_URI:-mongodb://lumina_admin:LuminaSecurePass2026!@mongodb:27017/lumina_read?authSource=admin}
+      - CLIENT_ORIGIN=https://book.mehaxan.com,http://book.mehaxan.com,http://localhost:5173
+    depends_on:
+      - mongodb
+    networks:
+      - lumina-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - lumina-network
+
+networks:
+  lumina-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
